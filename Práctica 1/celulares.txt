@@ -1,0 +1,9 @@
+123 80.500 apple
+15 20 rapido y buenas fotos
+iphone12
+234 45.000 samsung
+30 20 accesible y funcional
+a12
+345 36.800 motorola
+25 25 buen procesador pero poca calidad en camara
+moto20

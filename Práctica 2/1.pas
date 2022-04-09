@@ -1,0 +1,11 @@
+program 
+
+
+
+var 
+
+begin
+
+
+
+end. 
