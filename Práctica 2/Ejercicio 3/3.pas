@@ -1,7 +1,7 @@
 program ejercicio3; 
 const 
     valor_alto = 9999; 
-    cantDetalles = 30; 
+     cantDetalles = 30; 
 type 
 
     producto = record
@@ -18,21 +18,23 @@ type
         cantVendida : integer; 
     end; 
 
-    maestro = file of producto; 
-    detalle = file of regDetalle; 
+    FileMaestro = file of producto; 
+    FileDetalle = file of regDetalle; 
 
-    arrayDetalles = array [1..30] of detalle; 
+    arrayDetalles = array [1..cantDetalles] of FileDetalle; 
 
-procedure leer (var det:detalle; regD: regDetalle); 
-begin 
-
-
+procedure leer (var det:FileDetalle; regD: regDetalle); 
+begin   
+    if (not eof(det)) then 
+        read(det,regD); 
+    else
+        dato.cod := valor_alto; 
 end; 
 
-procedure actualizarMaestro (var mae: maestro; arratDets:arrayDetalles); 
+procedure actualizarMaestro (var mae: FileMaestro; arrayDets:arrayDetalles); 
 var
     regM: producto; 
-    det: detalle;  
+    det: FileDetalle;  
     regD: regDetalle; 
     codAct: integer; 
     i : integer; 
@@ -41,13 +43,14 @@ begin
     read (mae,regM); 
     i:=0;  
     while (i < cantDetalles) do begin 
-        leer(arratDets[i],regD); 
+        reset(arrayDetalles[i])
+        leer(arrayDets[i],regD); 
         while (regD.cod <> valor_alto) do begin
             codAct := regD.cod; 
             cantVendida := 0; 
             while (regD.cod = codAct) do begin 
                 cantVendida := cantVendida + regD.cantVendida; 
-                leer (arratDets[i],regD); 
+                leer (arrayDets[i],regD); 
             end;  
             while (regM.cod <> codAct) do begin 
                 read (mae,regM); 
@@ -64,11 +67,19 @@ begin
 end; 
 
 var
-    mae : maestro; 
+    mae : FileMaestro; 
     archDeTexto : filetext; 
     arrayDetalles : arrayDetalles;
+    i : integer; 
+    istr : string;
 begin
-    assign (mae,'maestroProductos');   
+    assign (mae,'maestroProductos.data');   
+    for i := 1 to cantDetalles do begin
+        str(i,istr); 
+        assign(arrayDetalles[i],'detalle' + istr + '.data'); 
+        rewrite(arrayDetalles[i]); 
+        
+    end; 
     actualizarMaestro  (mae,arrayDetalles); 
-
 end. 
+
